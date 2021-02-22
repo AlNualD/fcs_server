@@ -6,6 +6,8 @@ plugins {
     id 'application'
     id 'idea'
     id 'war'
+
+
     //id "io.freefair.lombok" version "5.2.1"
 
 }
@@ -25,9 +27,23 @@ ext {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+//    implementation 'org.hibernate:hibernate-agroal:5.4.22.Final'
+//    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: '+'
+//    compile group: 'org.hibernate', name: 'hibernate-search-orm', version: '5.11.5.Final'
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '+'
+//    compile 'org.springframework:spring-orm:4.3.30.RELEASE'
+
+
+//    compile group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
+
+    runtimeOnly 'org.postgresql:postgresql'
 
     compile group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '+'
     compile group: 'org.springdoc', name: 'springdoc-openapi-data-rest', version: '+'
+
+    compile "io.swagger.core.v3:swagger-annotations:2.1.6"
+//    compile "org.springdoc:springdoc-openapi-ui:1.5.2"
 
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
@@ -50,3 +66,81 @@ asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
 }
+
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.8.RELEASE")
+//    }
+//}
+//
+//apply plugin: 'java'
+//apply plugin: 'eclipse'
+//apply plugin: 'idea'
+//apply plugin: 'spring-boot'
+//
+//jar {
+//    baseName = 'fcs_server'
+//    version =  '0.0.1'
+//}
+//
+//repositories {
+//    mavenCentral()
+//}
+//
+//dependencies {
+//    // tag::jetty[]
+//    compile("org.springframework.boot:spring-boot-starter-web") {
+//        exclude module: "spring-boot-starter-tomcat"
+//    }
+//    compile("org.springframework.boot:spring-boot-starter-jetty")
+//    // end::jetty[]
+//    // tag::actuator[]
+//    compile("org.springframework.boot:spring-boot-starter-actuator")
+//    // end::actuator[]
+//
+//    compile group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '+'
+//    compile group: 'org.springdoc', name: 'springdoc-openapi-data-rest', version: '+'
+//
+//
+//    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+//    annotationProcessor 'org.projectlombok:lombok'
+//    compileOnly 'org.projectlombok:lombok'
+//
+//
+//
+//    testCompile("junit:junit")
+//}
+////dependencies {
+////    implementation 'org.springframework.boot:spring-boot-starter-web'
+////
+////    implementation 'org.hibernate:hibernate-agroal:5.4.22.Final'
+////
+////    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '+'
+////
+////
+////    runtimeOnly 'org.postgresql:postgresql'
+////
+////    compile group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '+'
+////    compile group: 'org.springdoc', name: 'springdoc-openapi-data-rest', version: '+'
+////
+////
+////
+////    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+////    annotationProcessor 'org.projectlombok:lombok'
+////    compileOnly 'org.projectlombok:lombok'
+////
+////    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+////        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+////    }
+////
+////    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+////}
+//
+//
+//
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '1.11'
+//}
