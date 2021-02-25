@@ -70,6 +70,24 @@ public class CharacterController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PutMapping("/characters/skills")
+    public ResponseEntity<?> updateSkill(@RequestParam(name = "id") long id, @RequestBody Skill skill) {
+        Optional<Skill> skillOptional = skillsRepository.findById(id);
+        if(!skillOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Skill skillOld = skillOptional.get();
+        skillOld.setName(skill.getName());
+        skillOld.setDefinition(skill.getDefinition());
+        skillOld.setDescription(skill.getDescription());
+
+        skillsRepository.save(skillOld);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+
     @GetMapping("/characters/spells")
     public ResponseEntity<List<Spell>> getCharacterSpells(@RequestParam(name = "id") long id) {
         Optional<Character> characterOptional = characterRepository.findById(id);
@@ -91,6 +109,23 @@ public class CharacterController {
         spell.setCharacter(character);
         spellRepository.save(spell);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/characters/spells")
+    public ResponseEntity<?> updateSpell(@RequestParam(name = "id") long id, @RequestBody Spell spell) {
+        Optional<Spell> spellOptional = spellRepository.findById(id);
+        if(!spellOptional.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Spell spellOld = spellOptional.get();
+        spellOld.setName(spell.getName());
+        spellOld.setDefinition(spell.getDefinition());
+        spellOld.setDescription(spell.getDescription());
+
+        spellRepository.save(spellOld);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 
     @GetMapping("/characters/inventory")
@@ -115,4 +150,6 @@ public class CharacterController {
         itemRepository.save(item);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+
 }

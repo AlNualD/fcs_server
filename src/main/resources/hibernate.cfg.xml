@@ -6,25 +6,12 @@
 <hibernate-configuration>
     <session-factory>
 
-<!--        <property name="connection.url">jdbc:postgresql://localhost:5432/devegang_FCS</property> &lt;!&ndash; BD Mane &ndash;&gt;-->
-<!--&lt;!&ndash;        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property> &lt;!&ndash; DB Driver &ndash;&gt;&ndash;&gt;-->
-<!--        <property name="connection.username">devegang</property> &lt;!&ndash; DB User &ndash;&gt;-->
-<!--        <property name="connection.password">123</property> &lt;!&ndash; DB Password &ndash;&gt;-->
-
-<!--        <property name="connection.url">jdbc:postgresql://devegangfcs.postgres.database.azure.com:5432/devegang_fcs?user=devegang@devegangfcs&amp;password=Dungeon~~~123&amp;sslmode=require</property> &lt;!&ndash; BD Mane &ndash;&gt;-->
-        <!--        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property> &lt;!&ndash; DB Driver &ndash;&gt;-->
-<!--        <property name="connection.username">nuald@devegang</property> &lt;!&ndash; DB User &ndash;&gt;-->
-<!--        <property name="connection.password">Dungeon~~~123</property> &lt;!&ndash; DB Password &ndash;&gt;-->
-
         <property name="dialect">org.hibernate.dialect.PostgreSQL10Dialect</property> <!-- DB Dialect -->
 <!--        TODO: return update when db will be ready-->
-        <property name="hbm2ddl.auto">create</property> <!-- create / create-drop / update -->
+        <property name="hbm2ddl.auto">update</property> <!-- create / create-drop / update -->
 
         <property name="show_sql">true</property> <!-- Show SQL in console -->
         <property name="format_sql">true</property> <!-- Show SQL formatted -->
-
-<!--        <mapping class="ru.devegang.fcs_server.entities.User"/>-->
-<!--       <mapping class="beans.Task"/>-->
 
     </session-factory>
 </hibernate-configuration>
