@@ -15,6 +15,7 @@ plugins {
 group = 'ru.devegang'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
+mainClassName = "ru.devegang.fcs_server.FcsServerApplication"
 
 repositories {
     mavenCentral()
@@ -66,3 +67,18 @@ asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
 }
+
+//jar {
+//    manifest.attributes("Main-Class": mainClassName);
+//}
+//
+//task fatJar(type: Jar) {
+//    manifest {
+//        attributes 'Implementation-Title': 'Gradle Jar File Example',
+//                'Implementation-Version': version,
+//                'Main-Class': 'com.example.DateUtils'
+//    }
+//    baseName = project.name + '-all'
+//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+//    with jar
+//}
