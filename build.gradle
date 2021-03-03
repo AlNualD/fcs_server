@@ -12,6 +12,8 @@ plugins {
 
 }
 
+apply plugin: 'io.spring.dependency-management'
+
 group = 'ru.devegang'
 version = '1.0.2'
 sourceCompatibility = '8'
@@ -24,16 +26,26 @@ repositories {
     mavenCentral()
 }
 
-jar {
+//jar {
+//    enabled = true
+//    manifest {
+//        attributes "Main-Class": "ru.devegang.fcs_server.FcsServerApplication"
+//    }
+//
+//    from {
+//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}
+
+bootJar {
+
     enabled = true
     manifest {
-        attributes "Main-Class": "ru.devegang.fcs_server.FcsServerApplication"
-    }
-
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        attributes 'Start-Class': 'ru.devegang.fcs_server.FcsServerApplication'
     }
 }
+
+
 
 ext {
     set('snippetsDir', file("build/generated-snippets"))
