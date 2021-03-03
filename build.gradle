@@ -26,17 +26,19 @@ repositories {
 }
 
 
-jar {
-    enabled = true
-    manifest {
-        attributes "Main-Class": "ru.devegang.fcs_server.FcsServerApplication"
-        attributes 'Start-Class': 'ru.devegang.fcs_server.FcsServerApplication'
-    }
+//
+//jar {
+//    enabled = true
+//    manifest {
+//        attributes "Main-Class": "ru.devegang.fcs_server.FcsServerApplication"
+//        attributes 'Start-Class': 'ru.devegang.fcs_server.FcsServerApplication'
+//    }
+//
+//    from {
+//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}
 
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
 
 bootJar {
 
