@@ -13,17 +13,26 @@ plugins {
 }
 
 group = 'ru.devegang'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.2'
 sourceCompatibility = '8'
 mainClassName = "ru.devegang.fcs_server.FcsServerApplication"
 
 
-jar {
-    baseName = 'heroku-gradle-spring-boot'
-}
+
 
 repositories {
     mavenCentral()
+}
+
+jar {
+    enabled = true
+    manifest {
+        attributes "Main-Class": "ru.devegang.fcs_server.FcsServerApplication"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 ext {
