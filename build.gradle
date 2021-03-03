@@ -17,6 +17,11 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
 mainClassName = "ru.devegang.fcs_server.FcsServerApplication"
 
+
+jar {
+    baseName = 'heroku-gradle-spring-boot'
+}
+
 repositories {
     mavenCentral()
 }
@@ -67,6 +72,11 @@ asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
 }
+
+task stage {
+    dependsOn build
+}
+
 
 //jar {
 //    manifest.attributes("Main-Class": mainClassName);
