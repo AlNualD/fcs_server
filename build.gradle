@@ -12,7 +12,6 @@ plugins {
 
 }
 
-apply plugin: 'io.spring.dependency-management'
 
 group = 'ru.devegang'
 version = '1.0.2'
@@ -26,16 +25,18 @@ repositories {
     mavenCentral()
 }
 
-//jar {
-//    enabled = true
-//    manifest {
-//        attributes "Main-Class": "ru.devegang.fcs_server.FcsServerApplication"
-//    }
-//
-//    from {
-//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-//    }
-//}
+
+jar {
+    enabled = true
+    manifest {
+        attributes "Main-Class": "ru.devegang.fcs_server.FcsServerApplication"
+        attributes 'Start-Class': 'ru.devegang.fcs_server.FcsServerApplication'
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
 
 bootJar {
 
