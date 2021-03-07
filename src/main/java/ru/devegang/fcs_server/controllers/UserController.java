@@ -44,8 +44,8 @@ public class UserController {
     }
 
 
-    @GetMapping("/users/login/{logn}")
-    public ResponseEntity<User> getUserbyLogin(@PathVariable(name = "login") String login) {
+    @GetMapping("/users/login/{login}")
+    public ResponseEntity<User> getUserbyLogin(@PathVariable("login") String login) {
         final Optional<User> Opuser = userRepository.findByLogin(login);
         return Opuser.isPresent() ? new ResponseEntity<>(Opuser.get(),HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
