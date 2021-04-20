@@ -41,7 +41,7 @@ public class CharacterController {
     }
 
     @PostMapping("/characters")
-    public ResponseEntity<Long> createCharacter(@RequestParam(name = "id") long id, @RequestBody Character character) {
+    public ResponseEntity<?> createCharacter(@RequestParam(name = "id") long id, @RequestBody Character character) {
         final Optional<User> Opuser = userRepository.findById(id);
         System.out.println("Get by USERID " + id);
         if (!Opuser.isPresent()) {
@@ -165,6 +165,14 @@ public class CharacterController {
         final List<Spell> spells = character.getSpells();
         return spells!=null && !spells.isEmpty() ? new ResponseEntity<>(spells,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/characters/spells/{id}")
+    public ResponseEntity<Spell> getSpellById(@PathVariable("id") long id) {
+        Optional<Spell> spellOptional = spellRepository.findById(id);
+        return spellOptional.isPresent() ? new ResponseEntity<>(spellOptional.get(),HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+    }
+
     @PostMapping("/characters/spells")
     public ResponseEntity<?> createSpell(@RequestParam(name = "id") long id, @RequestBody Spell spell) {
         Optional<Character> characterOptional = characterRepository.findById(id);
