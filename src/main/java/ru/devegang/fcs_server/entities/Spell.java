@@ -32,4 +32,7 @@ public class Spell {
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     String description;
+    @JsonIgnore
+    @Column(name = "formula")
+    String formula;
 }
