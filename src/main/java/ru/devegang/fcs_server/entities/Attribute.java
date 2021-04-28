@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -14,8 +13,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "skills")
-public class Skill {
+@Table(name = "attributes")
+public class Attribute {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -26,11 +26,12 @@ public class Skill {
     private Character character;
 
     @Column(name = "name")
-    String name;
-    @Column(name = "definition")
-    String definition;
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    String description;
+    private String name;
+    @Column(name = "amount")
+    private int amount;
+    @Column(name = "modif")
+    private int modification;
+    @Column(name = "is_trained")
+    private boolean isTrainedSaveRoll;
 
 }

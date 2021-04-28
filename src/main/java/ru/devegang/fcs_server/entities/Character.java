@@ -66,6 +66,10 @@ public class Character {
     @OneToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "spells_slots_id")
     private Spells_slots slots;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Attribute> attributes = new ArrayList<>();
 //
 //    @ManyToOne(fetch = FetchType.LAZY)
 ////    @JoinTable(name = "users")
