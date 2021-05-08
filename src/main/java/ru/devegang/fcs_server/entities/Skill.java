@@ -27,6 +27,21 @@ public class Skill {
     @JoinColumn(name = "character_id")
     private Character character;
 
+
+//TODO    @Column(name = "train")
+    int trainCoefficient;
+
+    @JsonIgnore
+    @ManyToOne
+    private Attribute attribute;
+
+
+//    TODO add db func to auto upgrade
+//    @Column(name = "value")
+    int value;
+
+
+
     @Column(name = "name")
     String name;
     @Column(name = "definition")

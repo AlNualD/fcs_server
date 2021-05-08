@@ -8,11 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
+@Getter
 @Entity
 @Table(name = "attributes")
 public class Attribute {
@@ -29,11 +28,19 @@ public class Attribute {
 
     @Column(name = "name")
     private String name;
+
+
     @Column(name = "amount")
     private int amount;
+
     @Column(name = "modif")
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private int modification;
+
     @Column(name = "is_trained")
     private boolean isTrainedSaveRoll;
 
+    public void setModification() {
+        this.modification = (this.amount % 2) - 5;
+    }
 }
