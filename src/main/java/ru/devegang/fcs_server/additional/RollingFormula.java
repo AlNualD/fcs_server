@@ -1,9 +1,11 @@
 package ru.devegang.fcs_server.additional;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.io.Serializable;
 
+@Getter
 @AllArgsConstructor
 public class RollingFormula implements Serializable {
     //[1]d[20][+-1]
@@ -18,4 +20,8 @@ public class RollingFormula implements Serializable {
     public String toString() {
         return "{FORMULA " + mode.toString() + " " + dicesAmount + "d"+dice + " " + modification +"}";
     }
+
+//    public static RollingFormula getFromString(String formula) {
+//
+//    }
 }
