@@ -1,6 +1,7 @@
 package ru.devegang.fcs_server.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,11 +21,13 @@ import java.util.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private long id;
     @Column(name = "name")
     String name;
     @Column(name = "login", unique = true)
     String login;
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     @Column(name = "character_count")
     int character_count;
 //
