@@ -1,6 +1,7 @@
 package ru.devegang.fcs_server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.devegang.fcs_server.entities.Character;
 import ru.devegang.fcs_server.entities.Spell;
 import ru.devegang.fcs_server.repositories.SpellRepository;
@@ -9,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class SpellsService implements SpellsServiceInterface {
 
     @Autowired

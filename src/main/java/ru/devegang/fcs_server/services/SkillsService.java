@@ -1,6 +1,9 @@
 package ru.devegang.fcs_server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ru.devegang.fcs_server.additional.dnd5.Skills;
+import ru.devegang.fcs_server.entities.Attribute;
 import ru.devegang.fcs_server.entities.Character;
 import ru.devegang.fcs_server.entities.Skill;
 import ru.devegang.fcs_server.repositories.SkillsRepository;
@@ -9,6 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+
+@Service
 public class SkillsService implements  SkillsServiceInterface {
 
     @Autowired
@@ -16,6 +21,9 @@ public class SkillsService implements  SkillsServiceInterface {
 
     @Autowired
     private CharacterService characterService;
+
+    @Autowired
+    private AttributesService attributesService;
 
     private boolean checkSkill(Skill skill) {
         return !skill.getName().isBlank();
@@ -29,9 +37,34 @@ public class SkillsService implements  SkillsServiceInterface {
     public Optional<Skill> createSkill(long character_id, Skill skill) {
         Optional<Character> characterOptional =  characterService.getCharacter(character_id);
         if(characterOptional.isPresent() && checkSkill(skill)) {
+            skill.setCharacter(characterOptional.get());
             return  Optional.of(skillsRepository.saveAndFlush(skill));
         }
         return Optional.empty();
+    }
+
+    public Optional<Skill> createSkill(Character character, Attribute attribute, Skill skill) {
+        if(checkSkill(skill)) {
+            skill.setCharacter(character);
+            skill.setAttribute(attribute);
+            return Optional.of(skillsRepository.saveAndFlush(skill));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Skill> createSkill(long character_id, Attribute attribute, Skill skill) {
+        Optional<Character> characterOptional =  characterService.getCharacter(character_id);
+        if(characterOptional.isPresent()) {
+            createSkill(characterOptional.get(),attribute,skill);
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Skill> createSkill(long character_id, long attribute_id, Skill skill) {
+        Optional<Attribute> attributeOptional = attributesService.getAttribute(attribute_id);
+        return attributeOptional.isPresent()? createSkill(character_id,attributeOptional.get(),skill) : Optional.empty();
+
     }
 
     @Override
@@ -81,5 +114,52 @@ public class SkillsService implements  SkillsServiceInterface {
             return true;
         }
         return false;
+    }
+
+
+
+    @Override
+    public List<Skill> setBasicSkillsDnd5Rus(long character_id) {
+        Optional<Character> character = characterService.getCharacter(character_id);
+        return character.isPresent() ? setBasicSkillsDnd5Rus(character.get().getAttributes()) : List.of();
+    }
+
+    private void setSkillInf(Attribute attribute, Skill skill) {
+        Character character = attribute.getCharacter();
+        skill.setCharacter(character);
+        skill.setAttribute(attribute);
+        skill.setTrainCoefficient(0);
+        skill.setValue(attribute.getModification());
+    }
+
+    @Override
+    public List<Skill> setBasicSkillsDnd5Rus(List<Attribute> attributes) {
+        List<Skill> skills = new LinkedList<>();
+        for (Skills value : Skills.values()) {
+            Skill skill = new Skill();
+            skill.setName(value.getNameRus());
+            Attribute attribute = attributes.get(value.getAttribute().getIndex());
+            setSkillInf(attribute, skill);
+            skills.add(skill);
+        }
+        return skills;
+    }
+
+    @Override
+    public List<Skill> setBasicSkillsDnd5Eng(long character_id) {
+        Optional<Character> character = characterService.getCharacter(character_id);
+        return character.isPresent() ? setBasicSkillsDnd5Eng(character.get().getAttributes()) : List.of();     }
+
+    @Override
+    public List<Skill> setBasicSkillsDnd5Eng(List<Attribute> attributes) {
+        List<Skill> skills = new LinkedList<>();
+        for (Skills value : Skills.values()) {
+            Skill skill = new Skill();
+            skill.setName(value.getNameEng());
+            Attribute attribute = attributes.get(value.getAttribute().getIndex());
+            setSkillInf(attribute, skill);
+            skills.add(skill);
+        }
+        return skills;
     }
 }

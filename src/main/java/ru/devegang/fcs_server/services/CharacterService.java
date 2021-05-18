@@ -2,6 +2,9 @@ package ru.devegang.fcs_server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.devegang.fcs_server.additional.dnd5.Attributes;
+import ru.devegang.fcs_server.additional.dnd5.Classes;
+import ru.devegang.fcs_server.additional.dnd5.Races;
 import ru.devegang.fcs_server.entities.*;
 import ru.devegang.fcs_server.entities.Character;
 import ru.devegang.fcs_server.repositories.CharacterRepository;
@@ -60,5 +63,105 @@ public class CharacterService implements CharacterServiceInterface {
             return true;
         }
         return false;
+    }
+
+    public boolean addRaceAndClass(long character_id, String race, String cclass) {
+        Optional<Character> optionalCharacter = getCharacter(character_id);
+        if(!optionalCharacter.isPresent()) return false;
+        Character character = optionalCharacter.get();
+        setRace(race,character);
+        character.setClassC(cclass);
+        setCClass(cclass,character);
+        return true;
+    }
+
+    private void setRace(String race, Character character) {
+        List<Attribute> attributes = character.getAttributes();
+        switch (Races.getRace(race)) {
+            case Elf:attributes.get(Attributes.Dexterity.getIndex()).setAmount(12);
+                attributes.get(Attributes.Intelligence.getIndex()).setAmount(12);
+                character.setRace("Эльф");
+                break;
+            case Dwarf: attributes.get(Attributes.Strength.getIndex()).setAmount(12);
+                character.setRace("Дворф");
+                break;
+            case Halfling: attributes.get(Attributes.Charisma.getIndex()).setAmount(11);
+                character.setRace("Полурослик");
+                break;
+            case Human:attributes.forEach(atr -> atr.incrementAmount());
+                character.setRace("Человек");
+                break;
+            case Dragonborn: attributes.get(Attributes.Charisma.getIndex()).setAmount(11);
+                attributes.get(Attributes.Strength.getIndex()).setAmount(12);
+                character.setRace("Драконорожденный");
+                break;
+            case Gnome: attributes.get(Attributes.Dexterity.getIndex()).setAmount(11);
+                character.setRace("Гном");
+                break;
+            default: character.setRace("");
+
+        }
+    }
+
+    private void setCClass(String cclass, Character character) {
+        switch (Classes.getClass(cclass)) {
+            case Barbarian:
+                character.set1lvlHp(12);
+
+                break;
+            case Bard:
+                character.set1lvlHp(8);
+                character.setSpells_total(4);
+                character.getSlots().setLvl0(2);
+                character.getSlots().setLvl1(2);
+                break;
+            case Cleric:
+                character.set1lvlHp(8);
+                character.setSpells_total(-1);
+                character.getSlots().setLvl0(3);
+                character.getSlots().setLvl1(2);
+                break;
+            case Druid:
+                character.set1lvlHp(8);
+                character.setSpells_total(-1);
+                character.getSlots().setLvl0(2);
+                character.getSlots().setLvl1(2);
+                break;
+            case Fighter:
+                character.set1lvlHp(10);
+                break;
+            case Monk:
+                character.set1lvlHp(8);
+                break;
+            case Paladin:
+                character.set1lvlHp(10);
+                character.setSpells_total(-1);
+                break;
+            case Ranger:
+                character.set1lvlHp(10);
+                character.setSpells_total(0);
+                break;
+            case Rouge:
+                character.set1lvlHp(8);
+                break;
+            case Sorcerer:
+                character.set1lvlHp(6);
+                character.setSpells_total(2);
+                character.getSlots().setLvl0(4);
+                character.getSlots().setLvl1(2);
+                break;
+            case Warlock:
+                character.set1lvlHp(8);
+                character.setSpells_total(2);
+                character.getSlots().setLvl0(2);
+                character.getSlots().setLvl1(1);
+                break;
+            case Wizard:
+                character.set1lvlHp(6);
+                character.setSpells_total(-1);
+                character.getSlots().setLvl0(3);
+                character.getSlots().setLvl1(2);
+                break;
+        }
     }
 }

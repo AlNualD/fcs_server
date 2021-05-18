@@ -5,5 +5,5 @@ import ru.devegang.fcs_server.additional.RollingResult;
 
 public interface RollingServiceInterface {
     public RollingResult regularRoll(RollingFormula formula);
-//    public RollingResult regularRoll(String formula);
+    public RollingResult regularRoll(String formula);
 }

@@ -1,6 +1,7 @@
 package ru.devegang.fcs_server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.devegang.fcs_server.entities.Character;
 import ru.devegang.fcs_server.entities.Item;
 import ru.devegang.fcs_server.repositories.ItemRepository;
@@ -8,6 +9,7 @@ import ru.devegang.fcs_server.repositories.ItemRepository;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ItemsService implements ItemsServiceInterface {
     @Autowired
     private ItemRepository itemRepository;

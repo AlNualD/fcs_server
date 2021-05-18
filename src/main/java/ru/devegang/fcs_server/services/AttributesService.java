@@ -95,4 +95,8 @@ public class AttributesService implements AttributesServiceInterface {
     public List<Attribute> getBasicAttributesDnd5Rus() {
         return makeAttributes(Attributes.getAttributesRus());
     }
+
+    public Optional<Attribute> getAttribute(long attribute_id) {
+        return attributeRepository.findById(attribute_id);
+    }
 }

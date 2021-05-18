@@ -40,5 +40,11 @@ public class RollingService implements RollingServiceInterface {
         return rollingResult;
     }
 
+    @Override
+    public RollingResult regularRoll(String formula) {
+        RollingFormula rollingFormula = RollingFormula.gerRollingFormula(formula);
+        return rollingFormula!=null? regularRoll(rollingFormula) : null;
+    }
+
 
 }
