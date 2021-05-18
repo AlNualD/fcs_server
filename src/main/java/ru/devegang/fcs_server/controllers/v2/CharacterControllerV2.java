@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v2")
-public class CharacterController {
+public class CharacterControllerV2 {
     @Autowired
     CharacterService characterService;
     @Autowired
