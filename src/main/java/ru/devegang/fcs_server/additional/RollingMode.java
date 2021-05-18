@@ -16,4 +16,11 @@ public enum RollingMode {
     public String toString() {
         return String.valueOf(this.i);
     }
+
+    public static RollingMode getFromInt(int i) {
+        for (RollingMode value : values()) {
+            if(value.i == i) return value;
+        }
+        return null;
+    }
 }
