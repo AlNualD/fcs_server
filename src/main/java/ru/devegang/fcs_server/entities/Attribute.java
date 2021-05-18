@@ -40,6 +40,15 @@ public class Attribute {
     @Column(name = "is_trained")
     private boolean isTrainedSaveRoll;
 
+    public void setAmount(int amount) {
+        this.amount = amount;
+        setModification();
+    }
+
+    public void incrementAmount() {
+        this.amount++;
+        setModification();
+    }
     public void setModification() {
         this.modification = (this.amount % 2) - 5;
     }

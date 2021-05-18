@@ -23,6 +23,8 @@ public class Spells_slots {
     @OneToOne(mappedBy = "slots")
     private Character character;
 
+    @Column(name = "lvl0")
+    int lvl0 = 0;
     @Column(name = "lvl1")
     int lvl1 = 0;
     @Column(name = "lvl2")

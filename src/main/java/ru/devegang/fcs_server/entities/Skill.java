@@ -28,8 +28,11 @@ public class Skill {
     private Character character;
 
 
-//TODO    @Column(name = "train")
-    int trainCoefficient;
+    @Column(name = "train")
+    int trainCoefficient;  //-1 -- its trait, 0 -- just skill, 1 -- trained, 2 -- specialisation
+
+    @Column(name = "canBeTrained")
+    boolean canBeTrained = false;
 
     @JsonIgnore
     @ManyToOne
@@ -37,10 +40,13 @@ public class Skill {
 
 
 //    TODO add db func to auto upgrade
-//    @Column(name = "value")
+    @Column(name = "value")
     int value;
 
 
+    public boolean isTrait() {
+        return this.trainCoefficient < 0;
+    }
 
     @Column(name = "name")
     String name;

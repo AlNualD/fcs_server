@@ -33,7 +33,6 @@ public class Item {
     String definition;
     @Column(name = "weight")
     double weight = 0;
-    @JsonIgnore
     @Column(name = "formula")
     String formula;
 }
