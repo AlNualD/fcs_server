@@ -1,46 +1,81 @@
-//package ru.devegang.fcs_server.services;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import org.springframework.transaction.annotation.Transactional;
-//import ru.devegang.fcs_server.entities.User;
-//import ru.devegang.fcs_server.entities.userFORTEST;
-//import ru.devegang.fcs_server.repositories.UserRepository;
-//
-//import java.util.HashMap;
-//import java.util.Map;
-//import java.util.Optional;
-//
-//@Service
-//public class UserService implements UserServiceInterface {
-//    @Autowired
-//    private UserRepository userRepository;
-//
-//    @Transactional
-//    @Override
-//    public User getUser(String login) {
-//        User user = userRepository.findUserByName(login);
-//        return user;
-//    }
-//
-//
-//
-//    @Override
-//    public void createUser(User user) {
-//
-//    }
-////    private static final Map<Integer, User> USERS_MAP = new HashMap<>();
-////
-////    @Override
-////    public User getUser(String login) {
-////        return USERS_MAP.get(login.hashCode());
-////    }
-////
-////    @Override
-////    public void createUser(User user) {
-////        USERS_MAP.put(user.getName().hashCode(),user);
-////
-////    }
-//
-//
-//}
+package ru.devegang.fcs_server.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.devegang.fcs_server.entities.Character;
+import ru.devegang.fcs_server.entities.User;
+import org.springframework.stereotype.Service;
+import ru.devegang.fcs_server.repositories.UserRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserService implements UserServiceInterface{
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Override
+    public Optional<User> getUser(String login) {
+        return userRepository.findByLogin(login);
+    }
+
+    @Override
+    public Optional<User> getUser(long id) {
+        return userRepository.findById(id);
+    }
+
+    boolean checkName(String name){
+        return (name != null && !name.isBlank());
+    }
+
+    boolean isExist(String login) {
+        return userRepository.existsUserByLogin(login);
+    }
+
+    boolean checkUser(User user) {
+        return checkName(user.getName()) && !isExist(user.getLogin());
+    }
+
+    @Override
+    public Optional<User> createUser(User user) {
+        if(checkUser(user)) {
+            user.setCharacter_count(0);
+            userRepository.saveAndFlush(user);
+        }
+        return Optional.empty();
+    }
+
+    boolean isExist(long id) {
+        return userRepository.existsById(id);
+    }
+
+    @Override
+    public boolean deleteUser(long id) {
+        userRepository.deleteById(id);
+        return !isExist(id);
+    }
+
+    @Override
+    public List<Character> getUsersCharacters(long id) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()) {
+            return user.get().getCharacters();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateUser(User user) {
+        Optional<User> opUser = userRepository.findById(user.getId());
+        if(opUser.isPresent()) {
+            User oldUser = opUser.get();
+            if((user.getLogin().equals(oldUser.getLogin())&&checkName(user.getName()))||(checkUser(user))) {
+                userRepository.saveAndFlush(user);
+                return true;
+            }
+        }
+        return false;
+    }
+}
+

@@ -1,5 +1,6 @@
 package ru.devegang.fcs_server.entities;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,11 +17,14 @@ import javax.persistence.*;
 public class Spells_slots {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     long id;
 
     @OneToOne(mappedBy = "slots")
     private Character character;
 
+    @Column(name = "lvl0")
+    int lvl0 = 0;
     @Column(name = "lvl1")
     int lvl1 = 0;
     @Column(name = "lvl2")
