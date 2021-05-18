@@ -1,5 +1,6 @@
 package ru.devegang.fcs_server.controllers.v2;
 
+import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
@@ -17,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v2")
-public class CharacterController {
+public class CharacterControllerV2 {
     @Autowired
     CharacterService characterService;
     @Autowired
@@ -88,14 +89,14 @@ public class CharacterController {
         return skillOptional.isPresent()? new ResponseEntity<>(skillOptional.get(),HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/characters/skills")
+    @PostMapping("/characters/skills/attributed")
     public ResponseEntity<Skill> createSkill(@RequestParam(name = "character_id") long character_id,@RequestBody Attribute attribute, @RequestBody Skill skill) {
         Optional<Skill> skillOptional = skillsService.createSkill(character_id,attribute,skill);
         return skillOptional.isPresent()? new ResponseEntity<>(skillOptional.get(),HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/characters/skills")
-    public ResponseEntity<Skill> createSkill(@RequestParam(name = "character_id") long character_id,@RequestParam(name = "attribute_id") long attribute_id, @RequestBody Skill skill) {
+    @PostMapping("/characters/skills/{attribute_id}")
+    public ResponseEntity<Skill> createSkill(@RequestParam(name = "character_id") long character_id, @PathVariable("attribute_id") long attribute_id, @RequestBody Skill skill) {
         Optional<Skill> skillOptional = skillsService.createSkill(character_id,attribute_id,skill);
         return skillOptional.isPresent()? new ResponseEntity<>(skillOptional.get(),HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
