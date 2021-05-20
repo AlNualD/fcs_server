@@ -88,7 +88,7 @@ public class Character {
         return ((this.lvl - 1) % 4) + 2;
     }
 
-    public void set1lvlHp(int dice) {
+    public void firstLvlHp(int dice) {
         healthDice = dice;
         hp_max = dice + attributes.get(Attributes.Constitution.getIndex()).getModification();
     }
