@@ -106,58 +106,58 @@ public class CharacterService implements CharacterServiceInterface {
     private void setCClass(String cclass, Character character) {
         switch (Classes.getClass(cclass)) {
             case Barbarian:
-                character.set1lvlHp(12);
+                character.firstLvlHp(12);
 
                 break;
             case Bard:
-                character.set1lvlHp(8);
+                character.firstLvlHp(8);
                 character.setSpells_total(4);
                 character.getSlots().setLvl0(2);
                 character.getSlots().setLvl1(2);
                 break;
             case Cleric:
-                character.set1lvlHp(8);
+                character.firstLvlHp(8);
                 character.setSpells_total(-1);
                 character.getSlots().setLvl0(3);
                 character.getSlots().setLvl1(2);
                 break;
             case Druid:
-                character.set1lvlHp(8);
+                character.firstLvlHp(8);
                 character.setSpells_total(-1);
                 character.getSlots().setLvl0(2);
                 character.getSlots().setLvl1(2);
                 break;
             case Fighter:
-                character.set1lvlHp(10);
+                character.firstLvlHp(10);
                 break;
             case Monk:
-                character.set1lvlHp(8);
+                character.firstLvlHp(8);
                 break;
             case Paladin:
-                character.set1lvlHp(10);
+                character.firstLvlHp(10);
                 character.setSpells_total(-1);
                 break;
             case Ranger:
-                character.set1lvlHp(10);
+                character.firstLvlHp(10);
                 character.setSpells_total(0);
                 break;
             case Rouge:
-                character.set1lvlHp(8);
+                character.firstLvlHp(8);
                 break;
             case Sorcerer:
-                character.set1lvlHp(6);
+                character.firstLvlHp(6);
                 character.setSpells_total(2);
                 character.getSlots().setLvl0(4);
                 character.getSlots().setLvl1(2);
                 break;
             case Warlock:
-                character.set1lvlHp(8);
+                character.firstLvlHp(8);
                 character.setSpells_total(2);
                 character.getSlots().setLvl0(2);
                 character.getSlots().setLvl1(1);
                 break;
             case Wizard:
-                character.set1lvlHp(6);
+                character.firstLvlHp(6);
                 character.setSpells_total(-1);
                 character.getSlots().setLvl0(3);
                 character.getSlots().setLvl1(2);

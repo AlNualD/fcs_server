@@ -1,5 +1,7 @@
 package ru.devegang.fcs_server.controllers.v2;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +17,11 @@ public class RollingController {
     @Autowired
     RollingService rollingService;
 
-    @GetMapping("/roll")
-    public ResponseEntity<RollingResult> sampleRoll(@RequestBody RollingFormula rollingFormula) {
-        return new ResponseEntity<>(rollingService.regularRoll(rollingFormula), HttpStatus.OK);
-    }
+
+//    @GetMapping("/roll")
+//    public ResponseEntity<RollingResult> sampleRoll(@RequestBody RollingFormula rollingFormula) {
+//        return new ResponseEntity<>(rollingService.regularRoll(rollingFormula), HttpStatus.OK);
+//    }
 
     @GetMapping("/roll/str")
     public ResponseEntity<RollingResult> sampleRoll(@RequestParam String formula) {

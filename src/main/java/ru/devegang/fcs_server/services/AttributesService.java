@@ -99,4 +99,9 @@ public class AttributesService implements AttributesServiceInterface {
     public Optional<Attribute> getAttribute(long attribute_id) {
         return attributeRepository.findById(attribute_id);
     }
+
+    public List<Attribute> getCharacterAttribute(long character_id) {
+        Optional<Character> optionalCharacter = characterService.getCharacter(character_id);
+        return optionalCharacter.isPresent()? optionalCharacter.get().getAttributes() : List.of();
+    }
 }

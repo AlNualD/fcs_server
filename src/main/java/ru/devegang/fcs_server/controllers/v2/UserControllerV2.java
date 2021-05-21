@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(name = "/api/v2")
+@RequestMapping("/api/v2")
 public class UserControllerV2 {
 
     @Autowired
@@ -37,7 +37,7 @@ public class UserControllerV2 {
 
 
     @GetMapping("/users/login/{login}")
-    public ResponseEntity<User> getUserbyLogin(@PathVariable("login") String login) {
+    public ResponseEntity<User> getUserByLogin(@PathVariable("login") String login) {
         Optional<User> optionalUser = userService.getUser(login);
         return optionalUser.isPresent()? new ResponseEntity<>(optionalUser.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

@@ -2,12 +2,14 @@ package ru.devegang.fcs_server.additional;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class RollingFormula implements Serializable {
     //[1]d[20][+-1]
