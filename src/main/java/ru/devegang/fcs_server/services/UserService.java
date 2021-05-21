@@ -41,7 +41,7 @@ public class UserService implements UserServiceInterface{
     public Optional<User> createUser(User user) {
         if(checkUser(user)) {
             user.setCharacter_count(0);
-            userRepository.saveAndFlush(user);
+            return  Optional.of(userRepository.saveAndFlush(user));
         }
         return Optional.empty();
     }

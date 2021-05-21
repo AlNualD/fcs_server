@@ -29,6 +29,8 @@ public class CharacterControllerV2 {
     SpellsService spellsService;
     @Autowired
     ItemsService itemsService;
+    @Autowired
+    AttributesService attributesService;
 
 //    @Autowired
 //    CharacterRepository characterRepository;
@@ -108,6 +110,28 @@ public class CharacterControllerV2 {
         return  skillsService.updateSkill(skill) ? new ResponseEntity<>(HttpStatus.OK) :  new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
+    @PutMapping("/characters/skills/attribute")
+    public ResponseEntity<?> addAttribute(@RequestParam(name = "skill_id")long skill_id, @RequestParam(name = "attribute_id")long attribute_id) {
+        Optional<Skill> optionalSkill = skillsService.getSkill(skill_id);
+        Optional<Attribute> optionalAttribute = attributesService.getAttribute(attribute_id);
+        if(optionalAttribute.isPresent() && optionalSkill.isPresent()) {
+            Skill skill = optionalSkill.get();
+            skill.setAttribute(optionalAttribute.get());
+            return skillsService.updateSkill(skill)? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/characters/skills/attribute")
+    public ResponseEntity<Attribute> getSkillAttribute(@RequestParam(name = "skill_id") long skill_id) {
+        Optional<Skill> optionalSkill = skillsService.getSkill(skill_id);
+        if(optionalSkill.isPresent()) {
+            Skill skill = optionalSkill.get();
+            return skill.getAttribute() != null ? new ResponseEntity<>(skill.getAttribute(),HttpStatus.OK): new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
     @DeleteMapping("/characters/skills")
     public ResponseEntity<?> deleteSkill(@RequestParam(name = "skill_id") long skill_id) {
         return skillsService.deleteSkill(skill_id)? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -126,7 +150,7 @@ public class CharacterControllerV2 {
     }
 
     @PostMapping("/characters/spells")
-    public ResponseEntity<?> createSpell(@RequestParam(name = "character_id") long character_id, @RequestBody Spell spell) {
+    public ResponseEntity<Spell> createSpell(@RequestParam(name = "character_id") long character_id, @RequestBody Spell spell) {
         Optional<Spell> spellOptional = spellsService.createSpell(character_id,spell);
         return spellOptional.isPresent()? new ResponseEntity<>(spellOptional.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
@@ -137,7 +161,7 @@ public class CharacterControllerV2 {
     }
 
     @PutMapping("/characters/spells")
-    public ResponseEntity<Spell> updateSpell(@RequestParam(name = "spell_id") long spell_id, @RequestBody Spell spell) {
+    public ResponseEntity<?> updateSpell(@RequestParam(name = "spell_id") long spell_id, @RequestBody Spell spell) {
         spell.setId(spell_id);
         return spellsService.updateSpell(spell) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
@@ -154,7 +178,7 @@ public class CharacterControllerV2 {
     }
 
     @PostMapping("/characters/inventory")
-    public ResponseEntity<?> createItem(@RequestParam(name = "character_id") long character_id, @RequestBody Item item) {
+    public ResponseEntity<Item> createItem(@RequestParam(name = "character_id") long character_id, @RequestBody Item item) {
         Optional<Item> itemOptional = itemsService.createItem(character_id,item);
         return itemOptional.isPresent()? new ResponseEntity<>(itemOptional.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
@@ -169,4 +193,24 @@ public class CharacterControllerV2 {
     public ResponseEntity<?> deleteItem(@RequestParam(name = "item_id") long item_id) {
         return itemsService.deleteItem(item_id)? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
+    @PostMapping("/characters/attributes")
+    public ResponseEntity<Attribute> createAttribute(@RequestParam(name = "character_id") long character_id, @RequestBody Attribute attribute) {
+        Optional<Attribute> optionalAttribute = attributesService.createAttribute(character_id, attribute);
+        return optionalAttribute.isPresent()? new ResponseEntity<>(optionalAttribute.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/character/attributes")
+    public ResponseEntity<?> updateAttribute(@RequestParam(name = "attribute_id") long attribute_id, @RequestBody Attribute attribute) {
+        return attributesService.updateAttribute(attribute) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    @GetMapping("character/attributes")
+    public ResponseEntity<List<Attribute>> getCharacterAttributes(@RequestParam(name = "character_id") long character_id) {
+        List<Attribute> attributes = attributesService.getCharacterAttribute(character_id);
+        return !attributes.isEmpty() ? new ResponseEntity<>(attributes,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
+
 }
