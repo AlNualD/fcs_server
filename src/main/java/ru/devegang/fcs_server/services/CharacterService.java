@@ -58,7 +58,39 @@ public class CharacterService implements CharacterServiceInterface {
 
     @Override
     public boolean updateCharacter(Character character) {
-        if(isExist(character.getId()) && checkCharacter(character)) {
+        Optional<Character> optionalCharacter = getCharacter(character.getId());
+        if(optionalCharacter.isPresent()) {
+            Character newCharacter  = optionalCharacter.get();
+            newCharacter.setClassC(character.getClassC());
+            newCharacter.setRace(character.getRace());
+            newCharacter.setHp_max(character.getHp_max());
+            newCharacter.setDescription(character.getDescription());
+            newCharacter.setMoney(character.getMoney());
+            newCharacter.setAlignment(character.getAlignment());
+            newCharacter.setLvl(character.getLvl());
+            characterRepository.saveAndFlush(character);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean changeHP(long character_id, int hpcur) {
+        Optional<Character> optionalCharacter = getCharacter(character_id);
+        if(optionalCharacter.isPresent()) {
+            Character character = optionalCharacter.get();
+            character.setHp_cur(hpcur);
+            characterRepository.saveAndFlush(character);
+        }
+        return false;
+    }
+
+    public boolean lvlUp(long character_id) {
+        Optional<Character> optionalCharacter = getCharacter(character_id);
+        if(optionalCharacter.isPresent()) {
+            Character character = optionalCharacter.get();
+            character.setLvl(character.getLvl() + 1);
+            int newHP = character.getHealthDice() > 0 ? character.getHp_cur() + character.getHealthDice() / 2 : character.getHp_cur();
+            character.setHp_max(newHP);
             characterRepository.saveAndFlush(character);
             return true;
         }

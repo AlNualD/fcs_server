@@ -2,6 +2,7 @@ package ru.devegang.fcs_server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.devegang.fcs_server.additional.RollingFormula;
 import ru.devegang.fcs_server.entities.Character;
 import ru.devegang.fcs_server.entities.Item;
 import ru.devegang.fcs_server.repositories.ItemRepository;
@@ -46,8 +47,18 @@ public class ItemsService implements ItemsServiceInterface {
 
     @Override
     public boolean updateItem(Item item) {
-        if(isExist(item.getId())&&checkItem(item)) {
-            itemRepository.saveAndFlush(item);
+        Optional<Item> optionalItem = getItem(item.getId());
+        if(optionalItem.isPresent()) {
+            Item old = optionalItem.get();
+            old.setName(item.getName());
+            old.setDefinition(item.getDefinition());
+            old.setWeight(item.getWeight());
+            if(item.getFormula().isEmpty() || RollingFormula.checkStringFormula(item.getFormula())) {
+                old.setFormula(item.getFormula());
+            } else {
+                return false;
+            }
+            itemRepository.saveAndFlush(old);
             return true;
         }
         return false;

@@ -11,6 +11,7 @@ import ru.devegang.fcs_server.additional.dnd5.Races;
 import ru.devegang.fcs_server.additional.dnd5.Skills;
 import ru.devegang.fcs_server.entities.Attribute;
 import ru.devegang.fcs_server.entities.Character;
+import ru.devegang.fcs_server.entities.Skill;
 import ru.devegang.fcs_server.entities.Spells_slots;
 import ru.devegang.fcs_server.services.AttributesService;
 import ru.devegang.fcs_server.services.CharacterService;
@@ -63,9 +64,15 @@ public class DND5Controller {
         character.setSlots(new Spells_slots());
         Optional<Character> optionalCharacter = characterService.createCharacter(user_id,character);
         if (optionalCharacter.isPresent()) {
-            long id = optionalCharacter.get().getId();
-            attributesService.createAttributes(id,attributesService.getBasicAttributesDnd5Rus());
-            skillsService.setBasicSkillsDnd5Rus(id);
+            Character characterCur = optionalCharacter.get();
+            long id = characterCur.getId();
+            List<Attribute> attributeList = attributesService.createAttributes(id,attributesService.getBasicAttributesDnd5Rus());
+            List<Skill> skillsList = skillsService.setBasicSkillsDnd5Rus(attributeList);
+//            characterService.updateCharacter(character);
+            if(attributeList == null || skillsList == null) {
+                characterService.deleteCharacter(characterCur.getId());
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<>(optionalCharacter.get(),HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

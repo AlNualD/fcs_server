@@ -118,9 +118,36 @@ public class SkillsService implements  SkillsServiceInterface {
         return !isExists(id);
     }
 
+    public boolean updateSkillsByAttribute(long attribute_id) {
+        Optional<Attribute> optionalAttribute = attributesService.getAttribute(attribute_id);
+
+        if(optionalAttribute.isPresent()){
+            List<Skill> skills = skillsRepository.findAllByAttribute(optionalAttribute.get());
+            for (Skill skill : skills) {
+                skill.updateModification();
+            }
+            skillsRepository.saveAll(skills);
+            skillsRepository.flush();
+        }
+
+        return false;
+    }
+
     @Override
     public boolean updateSkill(Skill skill) {
-        if(checkSkill(skill) && isExists(skill.getId())) {
+        Optional<Skill> optionalSkill = getSkill(skill.getId());
+        if(optionalSkill.isPresent()) {
+            Skill old = optionalSkill.get();
+            old.setDefinition(skill.getDefinition());
+            old.setDescription(skill.getDescription());
+            old.setName(skill.getName());
+            old.setTrainCoefficient(skill.getTrainCoefficient());
+            old.setCanBeTrained(skill.isCanBeTrained());
+            if(skill.getValue() != -1 ) {
+                old.setValue(skill.getValue());
+            } else {
+                old.updateModification();
+            }
             skillsRepository.saveAndFlush(skill);
             return true;
         }
@@ -145,6 +172,7 @@ public class SkillsService implements  SkillsServiceInterface {
 
     @Override
     public List<Skill> setBasicSkillsDnd5Rus(List<Attribute> attributes) {
+        if(attributes.isEmpty()) return null;
         List<Skill> skills = new LinkedList<>();
         for (Skills value : Skills.values()) {
             Skill skill = new Skill();
@@ -153,6 +181,8 @@ public class SkillsService implements  SkillsServiceInterface {
             setSkillInf(attribute, skill);
             skills.add(skill);
         }
+        List<Skill> newSkills = skillsRepository.saveAll(skills);
+        skillsRepository.flush();
         return skills;
     }
 

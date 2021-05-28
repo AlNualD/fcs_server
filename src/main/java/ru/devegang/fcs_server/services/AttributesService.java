@@ -65,11 +65,17 @@ public class AttributesService implements AttributesServiceInterface {
 
     @Override
     public boolean updateAttribute(Attribute attribute) {
-        if(checkAttribute(attribute)&&isExist(attribute.getId())) {
-            attribute.setModification();
-            attributeRepository.saveAndFlush(attribute);
+            Optional<Attribute> optionalAttribute = getAttribute(attribute.getId());
+            if(optionalAttribute.isPresent()) {
+            Attribute oldAttr = optionalAttribute.get();
+            oldAttr.setName(attribute.getName());
+            oldAttr.setAmount(attribute.getAmount());
+            oldAttr.setTrainedSaveRoll(attribute.isTrainedSaveRoll());
+            if(!checkAttribute(oldAttr)) return false;
+            attributeRepository.saveAndFlush(oldAttr);
             return true;
-        }
+            }
+
         return false;
     }
 
