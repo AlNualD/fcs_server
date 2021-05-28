@@ -56,4 +56,11 @@ public class Skill {
     @Type(type = "org.hibernate.type.TextType")
     String description;
 
+    public void updateModification() {
+        if(this.attribute != null && !isTrait()) {
+            int newVal = trainCoefficient*character.getProfBonus() + attribute.getModification();
+            this.value = newVal;
+        }
+    }
+
 }

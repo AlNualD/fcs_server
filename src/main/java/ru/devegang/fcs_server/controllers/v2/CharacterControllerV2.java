@@ -202,7 +202,12 @@ public class CharacterControllerV2 {
 
     @PutMapping("/characters/attributes")
     public ResponseEntity<?> updateAttribute(@RequestParam(name = "attribute_id") long attribute_id, @RequestBody Attribute attribute) {
-        return attributesService.updateAttribute(attribute) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        attribute.setId(attribute_id);
+        if(attributesService.updateAttribute(attribute)) {
+            skillsService.updateSkillsByAttribute(attribute_id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @GetMapping("/characters/attributes")
@@ -227,6 +232,24 @@ public class CharacterControllerV2 {
     public ResponseEntity<Item> getItem(@PathVariable("id") long id) {
         Optional<Item> itemOptional = itemsService.getItem(id);
         return itemOptional.isPresent() ? new ResponseEntity<>(itemOptional.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/characters/hp")
+    public ResponseEntity<Integer> updateHP(@RequestParam(name = "character_id") long character_id, @RequestParam(name = "hp") int hp) {
+        if(characterService.changeHP(character_id,hp)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/characters/lvlup")
+    public ResponseEntity<Character> lvlUpCharacter(@RequestParam("character_id") long character_id) {
+        if(characterService.lvlUp(character_id)) {
+            Optional<Character> optionalCharacter = characterService.getCharacter(character_id);
+            return optionalCharacter.isPresent() ? new ResponseEntity<>(optionalCharacter.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 

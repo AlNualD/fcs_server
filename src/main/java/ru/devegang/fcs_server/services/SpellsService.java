@@ -2,6 +2,7 @@ package ru.devegang.fcs_server.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.devegang.fcs_server.additional.RollingFormula;
 import ru.devegang.fcs_server.entities.Character;
 import ru.devegang.fcs_server.entities.Spell;
 import ru.devegang.fcs_server.repositories.SpellRepository;
@@ -49,8 +50,15 @@ public class SpellsService implements SpellsServiceInterface {
 
     @Override
     public boolean updateSpell(Spell spell) {
-        if(isExist(spell.getId()) && checkSpell(spell)) {
-            spellRepository.saveAndFlush(spell);
+        Optional<Spell> optionalSpell = getSpell(spell.getId());
+        if(optionalSpell.isPresent()) {
+            Spell old = optionalSpell.get();
+            if(!spell.getFormula().isEmpty() && !RollingFormula.checkStringFormula(spell.getFormula())) return false;
+            old.setFormula(spell.getFormula());
+            old.setName(spell.getName());
+            old.setDescription(spell.getDescription());
+            old.setDefinition(spell.getDefinition());
+            spellRepository.saveAndFlush(old);
             return true;
         }
         return false;
