@@ -25,6 +25,17 @@ public class SkillsService implements  SkillsServiceInterface {
     @Autowired
     private AttributesService attributesService;
 
+    public boolean deleteDependencies(long attribute_id) {
+        Optional<Attribute> attribute = attributesService.getAttribute(attribute_id);
+        if(attribute.isPresent()) return false;
+        List<Skill> skills = skillsRepository.findAllByAttribute(attribute.get());
+        for (Skill skill : skills) {
+            skill.setAttribute(null);
+            skillsRepository.saveAndFlush(skill);
+        }
+        return true;
+    }
+
     private boolean checkSkill(Skill skill) {
         return !skill.getName().isBlank();
     }

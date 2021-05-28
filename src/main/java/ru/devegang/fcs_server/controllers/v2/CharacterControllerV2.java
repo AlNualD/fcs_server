@@ -200,15 +200,33 @@ public class CharacterControllerV2 {
         return optionalAttribute.isPresent()? new ResponseEntity<>(optionalAttribute.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping("/character/attributes")
+    @PutMapping("/characters/attributes")
     public ResponseEntity<?> updateAttribute(@RequestParam(name = "attribute_id") long attribute_id, @RequestBody Attribute attribute) {
         return attributesService.updateAttribute(attribute) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @GetMapping("character/attributes")
+    @GetMapping("/characters/attributes")
     public ResponseEntity<List<Attribute>> getCharacterAttributes(@RequestParam(name = "character_id") long character_id) {
         List<Attribute> attributes = attributesService.getCharacterAttribute(character_id);
         return !attributes.isEmpty() ? new ResponseEntity<>(attributes,HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/characters/attribute/{id}")
+    public ResponseEntity<Attribute>  getAttribute(@PathVariable("id") long id) {
+        Optional<Attribute> attribute = attributesService.getAttribute(id);
+        return attribute.isPresent()? new ResponseEntity<>(attribute.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/characters/attribute")
+    public ResponseEntity<?> deleteAttribute(@RequestParam(name = "attribute_id") long attribute_id) {
+        skillsService.deleteDependencies(attribute_id);
+        return attributesService.deleteAttribute(attribute_id)? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/characters/inventory/{id}")
+    public ResponseEntity<Item> getItem(@PathVariable("id") long id) {
+        Optional<Item> itemOptional = itemsService.getItem(id);
+        return itemOptional.isPresent() ? new ResponseEntity<>(itemOptional.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import ru.devegang.fcs_server.additional.dnd5.Attributes;
 
 import javax.persistence.*;
@@ -49,6 +50,9 @@ public class Character {
     int spells_total;
     @Column(name = "money")
     double money;
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    String description;
 
 
 

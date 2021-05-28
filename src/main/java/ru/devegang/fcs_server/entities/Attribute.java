@@ -50,6 +50,6 @@ public class Attribute {
         setModification();
     }
     public void setModification() {
-        this.modification = (this.amount % 2) - 5;
+        this.modification = (this.amount / 2) - 5;
     }
 }
