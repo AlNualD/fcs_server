@@ -104,8 +104,15 @@ public class CharacterService implements CharacterServiceInterface {
         setRace(race,character);
         character.setClassC(cclass);
         setCClass(cclass,character);
+        calibrateSkills(character);
         characterRepository.saveAndFlush(character);
         return true;
+    }
+
+    private void calibrateSkills(Character character) {
+        for (Skill skill : character.getSkills()) {
+            skill.updateModification();
+        }
     }
 
     private void setRace(String race, Character character) {

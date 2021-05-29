@@ -148,7 +148,7 @@ public class SkillsService implements  SkillsServiceInterface {
             } else {
                 old.updateModification();
             }
-            skillsRepository.saveAndFlush(skill);
+            skillsRepository.saveAndFlush(old);
             return true;
         }
         return false;
