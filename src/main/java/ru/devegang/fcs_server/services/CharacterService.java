@@ -68,7 +68,7 @@ public class CharacterService implements CharacterServiceInterface {
             newCharacter.setMoney(character.getMoney());
             newCharacter.setAlignment(character.getAlignment());
             newCharacter.setLvl(character.getLvl());
-            characterRepository.saveAndFlush(character);
+            characterRepository.saveAndFlush(newCharacter);
             return true;
         }
         return false;
@@ -104,6 +104,7 @@ public class CharacterService implements CharacterServiceInterface {
         setRace(race,character);
         character.setClassC(cclass);
         setCClass(cclass,character);
+        characterRepository.saveAndFlush(character);
         return true;
     }
 
