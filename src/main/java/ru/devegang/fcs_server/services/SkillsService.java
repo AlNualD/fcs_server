@@ -143,7 +143,7 @@ public class SkillsService implements  SkillsServiceInterface {
             old.setName(skill.getName());
             old.setTrainCoefficient(skill.getTrainCoefficient());
             old.setCanBeTrained(skill.isCanBeTrained());
-            if(skill.getValue() != -1 ) {
+            if(skill.getTrainCoefficient() == -1 || skill.getValue() > 0) {
                 old.setValue(skill.getValue());
             } else {
                 old.updateModification();

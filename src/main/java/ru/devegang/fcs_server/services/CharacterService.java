@@ -138,7 +138,16 @@ public class CharacterService implements CharacterServiceInterface {
             case Gnome: attributes.get(Attributes.Dexterity.getIndex()).setAmount(11);
                 character.setRace("Гном");
                 break;
-            default: character.setRace("");
+            case Halfelf: attributes.get(Attributes.Charisma.getIndex()).setAmount(12);
+            attributes.get(Attributes.Dexterity.getIndex()).setAmount(11);
+            attributes.get(Attributes.Wisdom.getIndex()).setAmount(11);
+                break;
+            case Halforc: attributes.get(Attributes.Strength.getIndex()).setAmount(12);
+            attributes.get(Attributes.Constitution.getIndex()).setAmount(12);
+                break;
+            case Tiefling:attributes.get(Attributes.Charisma.getIndex()).setAmount(12);
+            attributes.get(Attributes.Intelligence.getIndex()).setAmount(11);
+                break;
 
         }
     }
