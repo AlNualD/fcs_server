@@ -72,4 +72,15 @@ public class ItemsService implements ItemsServiceInterface {
         }
         return null;
     }
+
+    public boolean setFavorite(long item_id, boolean isFavorite) {
+        Optional<Item> optionalItem = getItem(item_id);
+        if(optionalItem.isPresent()) {
+            Item item = optionalItem.get();
+            item.setFavorite(isFavorite);
+            itemRepository.saveAndFlush(item);
+            return true;
+        }
+        return  false;
+    }
 }

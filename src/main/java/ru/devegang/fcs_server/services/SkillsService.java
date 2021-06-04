@@ -148,6 +148,9 @@ public class SkillsService implements  SkillsServiceInterface {
             } else {
                 old.updateModification();
             }
+            if(skill.getAttribute() != null) {
+                old.setAttribute(skill.getAttribute());
+            }
             skillsRepository.saveAndFlush(old);
             return true;
         }
@@ -203,4 +206,16 @@ public class SkillsService implements  SkillsServiceInterface {
         }
         return skills;
     }
+
+    public boolean setFavorite(long skill_id, boolean isFavorite) {
+        Optional<Skill> skillOptional = getSkill(skill_id);
+        if(skillOptional.isPresent()) {
+            Skill skill = skillOptional.get();
+            skill.setFavorite(isFavorite);
+            skillsRepository.saveAndFlush(skill);
+            return true;
+        }
+        return false;
+    }
+
 }

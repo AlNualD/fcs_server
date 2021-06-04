@@ -91,6 +91,7 @@ public class CharacterService implements CharacterServiceInterface {
             character.setLvl(character.getLvl() + 1);
             int newHP = character.getHealthDice() > 0 ? character.getHp_cur() + character.getHealthDice() / 2 : character.getHp_cur();
             character.setHp_max(newHP);
+            character.getSkills().forEach(x -> x.updateModification());
             characterRepository.saveAndFlush(character);
             return true;
         }
@@ -213,4 +214,16 @@ public class CharacterService implements CharacterServiceInterface {
                 break;
         }
     }
+
+    public boolean setCharacterPicture(long character_id, String url) {
+        Optional<Character> characterOptional = getCharacter(character_id);
+        if(characterOptional.isPresent()) {
+            Character character = characterOptional.get();
+            character.setUrl(url);
+            characterRepository.saveAndFlush(character);
+            return  true;
+        }
+        return false;
+    }
+
 }
