@@ -252,6 +252,31 @@ public class CharacterControllerV2 {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @PutMapping("/characters/picture")
+    public  ResponseEntity<?> setPicture(@RequestParam("character_id") long character_id, @RequestParam("pic_url") String url) {
+        return characterService.setCharacterPicture(character_id,url) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/characters/spells/attributed")
+    public  ResponseEntity<Void> updateSpellAttributed(@RequestParam("spell_id") long spell_id, @RequestParam("attribute_id") long attribute_id, @RequestBody Spell spell) {
+        Optional<Attribute> optionalAttribute = attributesService.getAttribute(attribute_id);
+        if(optionalAttribute.isPresent()) {
+            if(spellsService.setAttribute(spell_id,optionalAttribute.get())){
+                return spellsService.updateSpell(spell) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/characters/spell/attribute/set")
+    public ResponseEntity<Void> setSpellAttribute(@RequestParam("spell_id") long spell_id, @RequestParam("attribute_id") long attribute_id) {
+        Optional<Attribute> optionalAttribute = attributesService.getAttribute(attribute_id);
+        if(optionalAttribute.isPresent()) {
+            return spellsService.setAttribute(spell_id,optionalAttribute.get())? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 
 
 }
