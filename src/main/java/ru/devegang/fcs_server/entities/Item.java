@@ -35,4 +35,6 @@ public class Item {
     double weight = 0;
     @Column(name = "formula")
     String formula;
+    @Column(name = "favorite")
+    Boolean favorite = false;
 }
