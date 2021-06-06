@@ -34,7 +34,7 @@ public class Skill {
     @Column(name = "canBeTrained")
     boolean canBeTrained = false;
 
-    @JsonIgnore
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     @ManyToOne
     private Attribute attribute;
 
@@ -55,6 +55,9 @@ public class Skill {
     @Lob
     @Type(type = "org.hibernate.type.TextType")
     String description;
+
+    @Column(name = "favorite")
+    Boolean favorite = false;
 
     public void updateModification() {
         if(this.attribute != null && !isTrait()) {

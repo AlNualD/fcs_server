@@ -60,7 +60,7 @@ public class AttributesService implements AttributesServiceInterface {
     @Override
     public boolean deleteAttribute(long id) {
         attributeRepository.deleteById(id);
-        return isExist(id);
+        return !isExist(id);
     }
 
     @Override

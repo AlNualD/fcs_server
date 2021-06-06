@@ -3,6 +3,7 @@ package ru.devegang.fcs_server.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.devegang.fcs_server.additional.RollingFormula;
+import ru.devegang.fcs_server.entities.Attribute;
 import ru.devegang.fcs_server.entities.Character;
 import ru.devegang.fcs_server.entities.Spell;
 import ru.devegang.fcs_server.repositories.SpellRepository;
@@ -58,6 +59,12 @@ public class SpellsService implements SpellsServiceInterface {
             old.setName(spell.getName());
             old.setDescription(spell.getDescription());
             old.setDefinition(spell.getDefinition());
+            old.setLvl(spell.getLvl());
+            if(spell.getDifficulty() == -1 && old.getAttribute() != null) {
+                old.updateDifficulty();
+            } else {
+                old.setDifficulty(spell.getDifficulty());
+            }
             spellRepository.saveAndFlush(old);
             return true;
         }
@@ -86,5 +93,27 @@ public class SpellsService implements SpellsServiceInterface {
             spells.addAll(character.getSpells());
         }
         return spells;
+    }
+
+    public  boolean setFavorite(long spell_id, boolean isFavorite) {
+        Optional<Spell> optionalSpell = getSpell(spell_id);
+        if(optionalSpell.isPresent()) {
+            Spell spell = optionalSpell.get();
+            spell.setFavorite( isFavorite);
+            spellRepository.saveAndFlush(spell);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setAttribute(long spell_id, Attribute attribute) {
+        Optional<Spell> optionalSpell = getSpell(spell_id);
+        if(optionalSpell.isPresent()) {
+            Spell spell = optionalSpell.get();
+            spell.setAttribute(attribute);
+            spellRepository.saveAndFlush(spell);
+            return true;
+        }
+        return false;
     }
 }

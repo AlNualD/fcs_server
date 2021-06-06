@@ -54,6 +54,8 @@ public class Character {
     @Type(type = "org.hibernate.type.TextType")
     String description;
 
+    @Column(name = "picture", nullable = true)
+    String url;
 
 
     @JsonIgnore

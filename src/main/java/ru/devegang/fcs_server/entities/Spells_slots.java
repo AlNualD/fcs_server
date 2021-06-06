@@ -1,5 +1,6 @@
 package ru.devegang.fcs_server.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class Spells_slots {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     long id;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "slots")
     private Character character;
 

@@ -27,6 +27,8 @@ public class Spell {
     @JoinColumn(name = "character_id")
     private Character character;
 
+
+
     @Column(name = "name")
     String name;
     @Column(name = "definition")
@@ -36,4 +38,20 @@ public class Spell {
     String description;
     @Column(name = "formula")
     String formula;
+    @Column(name = "lvl")
+    Byte lvl = -1;
+    @Column(name = "favorite")
+    Boolean favorite = false;
+
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
+    @ManyToOne
+    private Attribute attribute;
+    @Column(name = "difficulty")
+    int difficulty = -1;
+
+    public void updateDifficulty() {
+        if(this.getAttribute() != null) {
+            difficulty = 8 + attribute.getModification() + character.getProfBonus();
+        }
+    }
 }
