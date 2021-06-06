@@ -277,6 +277,23 @@ public class CharacterControllerV2 {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping("/characters/skills/favorite")
+    public ResponseEntity<Void> setFavoriteSkill(@RequestParam("skill_id") long skill_id, @RequestParam("is_favorite") boolean isFavorite) {
+        return skillsService.setFavorite(skill_id,isFavorite) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/characters/spells/favorite")
+    public ResponseEntity<Void> setFavoriteSpell(@RequestParam("spell_id") long spell_id, @RequestParam("is_favorite") boolean isFavorite) {
+        return spellsService.setFavorite(spell_id,isFavorite) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/characters/items/favorite")
+    public  ResponseEntity<Void> setFavoriteItem(@RequestParam("item_id") long item_id, @RequestParam("is_favorite") boolean isFavorite) {
+        return itemsService.setFavorite(item_id,isFavorite) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
+
 
 
 }
