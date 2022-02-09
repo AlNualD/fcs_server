@@ -2,10 +2,9 @@ package ru.devegang.fcs_server.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 //import org.hibernate.annotations.Entity;
 //import org.hibernate.annotations.Table;
 
@@ -27,6 +26,13 @@ public class User {
     String name;
     @Column(name = "login", unique = true)
     String login;
+
+
+    @Column(name = "password")
+    private String password;
+
+
+
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     @Column(name = "character_count")
     int character_count;
@@ -48,4 +54,6 @@ public class User {
         //return super.toString();
         return "{user " + id + " " + name + "}";
     }
+
+
 }
