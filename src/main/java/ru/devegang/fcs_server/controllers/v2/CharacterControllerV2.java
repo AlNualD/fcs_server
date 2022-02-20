@@ -1,18 +1,13 @@
 package ru.devegang.fcs_server.controllers.v2;
 
-import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.devegang.fcs_server.entities.*;
 import ru.devegang.fcs_server.entities.Character;
-import ru.devegang.fcs_server.repositories.*;
 import ru.devegang.fcs_server.services.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

@@ -3,10 +3,7 @@ package ru.devegang.fcs_server.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-//import org.hibernate.annotations.Entity;
-//import org.hibernate.annotations.Table;
+
 
 import javax.persistence.*;
 import java.util.*;
@@ -36,12 +33,6 @@ public class User {
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     @Column(name = "character_count")
     int character_count;
-//
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-//    public Set<Character> characters = new HashSet<>();
-//    @OneToMany(mappedBy = "user_id", fetch = FetchType.LAZY)
-//    private Collection<Character> characters;
-
 
 
     @JsonIgnore
@@ -51,7 +42,6 @@ public class User {
 
     @Override
     public String toString() {
-        //return super.toString();
         return "{user " + id + " " + name + "}";
     }
 
