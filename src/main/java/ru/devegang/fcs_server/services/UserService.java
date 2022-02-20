@@ -1,28 +1,49 @@
 package ru.devegang.fcs_server.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.devegang.fcs_server.entities.Character;
 import ru.devegang.fcs_server.entities.User;
 import org.springframework.stereotype.Service;
 import ru.devegang.fcs_server.repositories.UserRepository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService implements UserServiceInterface{
 
-    @Autowired
-    UserRepository userRepository;
+
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
+
 
     @Override
     public Optional<User> getUser(String login) {
+
         return userRepository.findByLogin(login);
     }
 
     @Override
     public Optional<User> getUser(long id) {
+
         return userRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> getUser(String login, String password) {
+        Optional<User> optionalUser = userRepository.findByLogin(login);
+
+
+        if(optionalUser.isPresent()
+                && passwordEncoder.matches(password,optionalUser.get().getPassword())) {
+            return optionalUser;
+        }
+
+        return Optional.empty();
     }
 
     boolean checkName(String name){
@@ -41,6 +62,7 @@ public class UserService implements UserServiceInterface{
     public Optional<User> createUser(User user) {
         if(checkUser(user)) {
             user.setCharacter_count(0);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             return  Optional.of(userRepository.saveAndFlush(user));
         }
         return Optional.empty();
@@ -77,5 +99,6 @@ public class UserService implements UserServiceInterface{
         }
         return false;
     }
+
 }
 

@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.devegang.fcs_server.entities.Character;
 import ru.devegang.fcs_server.entities.User;
-import ru.devegang.fcs_server.repositories.UserRepository;
 import ru.devegang.fcs_server.services.UserService;
 
 import java.util.List;

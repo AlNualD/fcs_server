@@ -2,12 +2,8 @@ package ru.devegang.fcs_server.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-//import org.hibernate.annotations.Entity;
-//import org.hibernate.annotations.Table;
+import lombok.*;
+
 
 import javax.persistence.*;
 import java.util.*;
@@ -27,15 +23,16 @@ public class User {
     String name;
     @Column(name = "login", unique = true)
     String login;
+
+
+    @Column(name = "password")
+    private String password;
+
+
+
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     @Column(name = "character_count")
     int character_count;
-//
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-//    public Set<Character> characters = new HashSet<>();
-//    @OneToMany(mappedBy = "user_id", fetch = FetchType.LAZY)
-//    private Collection<Character> characters;
-
 
 
     @JsonIgnore
@@ -45,7 +42,8 @@ public class User {
 
     @Override
     public String toString() {
-        //return super.toString();
         return "{user " + id + " " + name + "}";
     }
+
+
 }
