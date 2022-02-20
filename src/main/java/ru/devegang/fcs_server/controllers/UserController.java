@@ -1,16 +1,12 @@
 package ru.devegang.fcs_server.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.devegang.fcs_server.entities.Character;
 import ru.devegang.fcs_server.entities.User;
-import ru.devegang.fcs_server.repositories.CharacterRepository;
 import ru.devegang.fcs_server.repositories.UserRepository;
-//import ru.devegang.fcs_server.services.UserService;
-import ru.devegang.fcs_server.entities.userFORTEST;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +14,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
-//    private final UserService userService;
 
     @Autowired
     private UserRepository userRepository;
