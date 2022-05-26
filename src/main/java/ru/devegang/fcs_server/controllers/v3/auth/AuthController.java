@@ -37,6 +37,6 @@ public class AuthController {
         if(user.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         String token = jwtProvider.generateToken(user.get().getLogin());
-        return new ResponseEntity<>(new AuthResponse(token), HttpStatus.OK);
+        return new ResponseEntity<>(new AuthResponse(token,user.get().getId()), HttpStatus.OK);
     }
 }

@@ -27,8 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-// TODO turn on auth when back ready
-//                .antMatchers("/api/v2/users/login/*").hasRole("USER")
+                .antMatchers("/api/v2/users/login/*").hasRole("USER")
                 .antMatchers("/register", "/auth").permitAll()
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
