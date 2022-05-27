@@ -63,11 +63,13 @@ public class CharacterService implements CharacterServiceInterface {
             Character newCharacter  = optionalCharacter.get();
             newCharacter.setClassC(character.getClassC());
             newCharacter.setRace(character.getRace());
+            newCharacter.setHp_cur(character.getHp_cur());
             newCharacter.setHp_max(character.getHp_max());
             newCharacter.setDescription(character.getDescription());
             newCharacter.setMoney(character.getMoney());
             newCharacter.setAlignment(character.getAlignment());
             newCharacter.setLvl(character.getLvl());
+            newCharacter.setUrl(character.getUrl());
             characterRepository.saveAndFlush(newCharacter);
             return true;
         }
@@ -80,6 +82,18 @@ public class CharacterService implements CharacterServiceInterface {
             Character character = optionalCharacter.get();
             character.setHp_cur(hpcur);
             characterRepository.saveAndFlush(character);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addPicture(long character_id, String url) {
+        Optional<Character> optionalCharacter = getCharacter(character_id);
+        if(optionalCharacter.isPresent()) {
+            Character character = optionalCharacter.get();
+            character.setUrl(url);
+            characterRepository.saveAndFlush(character);
+            return true;
         }
         return false;
     }
