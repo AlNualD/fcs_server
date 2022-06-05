@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -jar build/libs/fcs_server-2.0.1.jar
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar build/libs/fcs_server-2.0.2.jar
